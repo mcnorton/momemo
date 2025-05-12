@@ -210,12 +210,24 @@
     <script src="js/todo.js"></script>
     <script src="js/fullscreen.js"></script>
     <script src="js/timer.js"></script>
-    <script src="js/pwa.js"></script>
     <script src="js/analog.js"></script>
     <script src="js/scoreboard.js"></script>
     <script src="js/chalk.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/wakelock.js"></script>
+
+    <script src="js/pwa.js"></script>
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('Service Worker registration failed:', error);
+        });
+      }
+    </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S6HSJQCCK"></script>
