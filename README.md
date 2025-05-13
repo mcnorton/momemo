@@ -15,9 +15,10 @@
 
 | ![momemo](https://github.com/mcnorton/mome/assets/4551495/660bcb5c-fed8-451e-94e6-2965722fed24)  |
 |:--:|
-| Coffeeware |
-| <a href="https://qr.kakaopay.com/Ej7rXgFvM73a04911">![kakao_buymeacoffee](https://github.com/user-attachments/assets/7dee1285-0f93-4992-bb91-79ae7be0c048)
-</a>A software engineer is a device for turning coffee into software - mcnorton|
+| Coffeeware 개발자후원하기 |
+| <a href="https://ctee.kr/place/mcnorton" target="_blank">![Coffeeware](https://github.com/user-attachments/assets/96d38b06-bb75-46e1-ac65-3b54a2e19798)
+A software engineer is a device for turning coffee into software - mcnorton|
+
 
 
 ---
@@ -114,9 +115,11 @@
 ---
 
 | Coffeeware |
-|:---:|
-| <a href="https://qr.kakaopay.com/Ej7rXgFvM73a04911">![kakao_buymeacoffee](https://github.com/user-attachments/assets/7dee1285-0f93-4992-bb91-79ae7be0c048)
-</a>A software engineer is a device for turning coffee into software |
+|:--:|
+| 개발자 후원하기 |
+| <a href="https://ctee.kr/place/mcnorton" target="_blank">![Coffeeware](https://github.com/user-attachments/assets/96d38b06-bb75-46e1-ac65-3b54a2e19798)
+A software engineer is a device for turning coffee into software - mcnorton|
+
 
 ---
 
