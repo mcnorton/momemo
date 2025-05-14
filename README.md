@@ -29,18 +29,19 @@ A software engineer is a device for turning coffee into software - mcnorton|
 * 완료된 할일과 메모를 체크, 천천히 사라지는 동안 마음을 정리
 * 웹 브라우저의 크기와 화면 크기에 따라 글꼴의 크기가 적절히 조절
 * [INSTALL] 버튼을 눌러 데스크탑 앱으로 설치 가능 (new)
+* 창이 활성화 되어있는 동안, 에너지 절약모드의 화면꺼짐이 무시되고 깨어있는 상태로 유지
 * 브라우저의 확장프로그램을 이용해, **새 탭에서 자동**으로 열기 응용 가능
 
 ## Function
 1. 날짜 표시
 2. 대형 숫자 시계 - 12시간제
 3. 대형 아날로그 시계 - 3가지 종류 (숫자-아날로그 전환)
-4. 이름 (메시지) 표시
+4. 이름, 메시지, 목표 표시
 5. 긍정의 명언
 6. 체크리스트 - 리스트 추가, 완료
-7. 원형 타이머 (파이 타이머)
+7. 원형 파이 타이머
 8. 화이트 보드
-9. 스코어 보드 (경기용)
+9. 경기용 스코어 보드
 10. 만년 달력
 
 ## Using
@@ -68,6 +69,7 @@ A software engineer is a device for turning coffee into software - mcnorton|
 * 2025.03.10. 만년 달력 기능
 * 2025.03.19. 활성화 상태에서 화면이 꺼지지 않도록 기능 추가
 * 2025.03.21. 타이머의 색상이 바뀌도록 기능 개선
+* 2025.05.13. 설치된 상태에서 오프라인이 되어도 작동하도록 캐시 적용
 
 ## Ready...
 * 자주가는 사이트 링크
@@ -91,24 +93,24 @@ A software engineer is a device for turning coffee into software - mcnorton|
 
 ---
 
-# 도움말
+# 설치
 
-## 1. Install Desktop App.
-데스크탑 앱으로 설치해서 바탕화면, 작업표시줄, 시작메뉴 등에서 편리하게 실행하세요.
+## Install Desktop App.
+데스크탑, 태블릿, 스마트폰 앱으로 설치하여 바탕화면, 작업표시줄, 시작메뉴 등에서 바로 사용하세요.
 
 ![momemo-install](https://github.com/mcnorton/mome/assets/4551495/2e30c200-a597-4910-9610-4e3ce128675f)
 
+# 기타
 
-
-## 2. 크롬확장 : 새 탭에서 Mome 자동으로 열기
+## 크롬확장 : 새 탭에서 Mome 자동으로 열기
 새 탭을 열 때, Mome 페이지를 자동으로 열리도록 하면 엄청나게 편리합니다.
 
 ![CustomNewTabURL](https://lh3.googleusercontent.com/4lCsO0HhSqwN-U68QDFgVhLWb285-pfcoX_PHV5C6J6WuLSadROAD5iQm8kKmE8xM0qmh6XUQ0Wf0NtxFLkyB7t2=w640-h400-e365-rj-sc0x00ffffff)
 
-### 2.1 'Custom New Tab URL' 설치
+### 1. 'Custom New Tab URL' 설치
 * 크롬확장설치 https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia/
 
-### 2.2 Options Enable + URL을 추가
+### 2. Options Enable + URL을 추가
 * 설치완료 후, 새 탭을 열고, [Enable] 체크
 * [URL or Local file path]에 https://mcnorton.github.io/mome/ 입력하고 [Save]
 
@@ -116,7 +118,7 @@ A software engineer is a device for turning coffee into software - mcnorton|
 
 | Coffeeware |
 |:--:|
-| 개발자 후원하기 |
+| 개발자에게 커피 후원하기 |
 | <a href="https://ctee.kr/place/mcnorton" target="_blank">![Coffeeware](https://github.com/user-attachments/assets/96d38b06-bb75-46e1-ac65-3b54a2e19798)
 A software engineer is a device for turning coffee into software - mcnorton|
 
