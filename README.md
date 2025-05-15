@@ -2,24 +2,28 @@
 순간을 메모하세요. (Moment + Memo = MoMemo)   
 시계 + 메모 + 체크리스트 & 유용한 도구들
 
-## URL
-
-> https://www.momemo.net
-
 ---
+
+# Quick Guide
+
+## Connect
+
+> [!IMPORTANT]
+> 접속주소(URL) - [https://www.momemo.net](https://www.momemo.net)
+
+## Using
+
+![momemo](https://github.com/user-attachments/assets/811c51da-d190-46f7-89a3-4e7c84dd6feb)
 
 * 웹브라우저의 홈페이지나 새 탭 기본페이지로 지정하여 시계와 메모, 할일을 관리 할 수 있습니다.
 * 개인용으로 사용해도 좋고, 대형스크린용 게시판으로 사용해도 좋습니다.
 * 저장된 목록은 사용자의 웹 브라우저에만 기록됩니다.
 * 간단한 도구들로 쓸모있게 활용하세요. (아날로그시계, 타이머, 경기점수판, 화이트보드)
 
-| ![momemo](https://github.com/user-attachments/assets/811c51da-d190-46f7-89a3-4e7c84dd6feb) |
-|:--:|
-| Coffeeware 개발자후원하기 |
-| <a href="https://ctee.kr/place/mcnorton" target="_blank">![Coffeeware](https://github.com/user-attachments/assets/96d38b06-bb75-46e1-ac65-3b54a2e19798)
-A software engineer is a device for turning coffee into software - mcnorton|
+## Install 
+데스크탑, 태블릿, 스마트폰 앱으로 설치하여 바탕화면, 작업표시줄, 시작메뉴 등에서 바로 사용하세요.
 
-
+![momemo-install](https://github.com/mcnorton/mome/assets/4551495/2e30c200-a597-4910-9610-4e3ce128675f)
 
 ---
 
@@ -44,13 +48,12 @@ A software engineer is a device for turning coffee into software - mcnorton|
 9. 경기용 스코어 보드
 10. 만년 달력
 
-## Using
 * 개인의 업무용 메모보드, To Do List
 * 교실의 대형화면을 활용한 현재시각, 수업안내, 알림장, 타이머, 안내판, 게임점수판
 * 전체화면 모드로 행사장 안내판, 예약 현황판
 * 프로젝트 관리용 당일/주간 업무일정, 공지사항
 
-## Update
+## Update log
 * 2021.10.15. 시작
 * 2021.12.08. 코드 최적화
 * 2022.01.26. 반응형 웹 적용, Fixed Font로 변경, 배경화면 고정
@@ -71,7 +74,7 @@ A software engineer is a device for turning coffee into software - mcnorton|
 * 2025.03.21. 타이머의 색상이 바뀌도록 기능 개선
 * 2025.05.13. 설치된 상태에서 오프라인이 되어도 작동하도록 캐시 적용
 
-## Ready...
+## Ready
 * 자주가는 사이트 링크
 * 화이트 노이즈
 * 정각 알림
@@ -84,7 +87,7 @@ A software engineer is a device for turning coffee into software - mcnorton|
 ---
 # Screenshot
 
- ## 2021-2022 
+## 2021-2022 
   ![memo2021](https://user-images.githubusercontent.com/4551495/145520765-96e5085f-88bc-4c2b-bd85-5e37fa8d4402.png)
 
 ## 2023
@@ -93,16 +96,9 @@ A software engineer is a device for turning coffee into software - mcnorton|
 
 ---
 
-# 설치
+# 응용
 
-## Install Desktop App.
-데스크탑, 태블릿, 스마트폰 앱으로 설치하여 바탕화면, 작업표시줄, 시작메뉴 등에서 바로 사용하세요.
-
-![momemo-install](https://github.com/mcnorton/mome/assets/4551495/2e30c200-a597-4910-9610-4e3ce128675f)
-
-# 기타
-
-## 크롬확장 : 새 탭에서 Mome 자동으로 열기
+## 새 탭에서 Mome 자동으로 열기
 새 탭을 열 때, Mome 페이지를 자동으로 열리도록 하면 엄청나게 편리합니다.
 
 ![CustomNewTabURL](https://lh3.googleusercontent.com/4lCsO0HhSqwN-U68QDFgVhLWb285-pfcoX_PHV5C6J6WuLSadROAD5iQm8kKmE8xM0qmh6XUQ0Wf0NtxFLkyB7t2=w640-h400-e365-rj-sc0x00ffffff)
@@ -112,21 +108,27 @@ A software engineer is a device for turning coffee into software - mcnorton|
 
 ### 2. Options Enable + URL을 추가
 * 설치완료 후, 새 탭을 열고, [Enable] 체크
-* [URL or Local file path]에 https://mcnorton.github.io/mome/ 입력하고 [Save]
+* [URL or Local file path]에 https://www.momemo.net 입력하고 [Save]
 
 ---
 
-| Coffeeware |
-|:--:|
-| 개발자에게 커피 후원하기 |
-| <a href="https://ctee.kr/place/mcnorton" target="_blank">![Coffeeware](https://github.com/user-attachments/assets/96d38b06-bb75-46e1-ac65-3b54a2e19798)
-A software engineer is a device for turning coffee into software - mcnorton|
+## Coffeeware
+> [!TIP]
+> 1. [맥노턴의 학교앞 구멍가게](https://ctee.kr/place/mcnorton)에서 커피한잔 후원하기</a> 
+> 2. 카카오페이 간편후원\
+>    ![kakao_buymeacoffee_150](https://github.com/user-attachments/assets/905ce975-cd7e-452a-97f0-6995101954bc)
+
+```
+"A software engineer is a device for turning coffee into software"
+(소프트웨어개발자는 커피를 소프트웨어로 바꾸는 기계이다) - mcnorton
+```
 
 
 ---
 
 ## Special Thanks!
-* Nomardcoder (Vanilla JS Course) - https://nomadcoders.co/
-* Pixabay - https://pixabay.com/
-* Internet Archive - https://archive.org/
+> 후원자 - 김기성, 김찬  
+> Nomardcoder (Vanilla JS Course) - https://nomadcoders.co/  
+> Pixabay - https://pixabay.com/  
+> Internet Archive - https://archive.org/  
 
