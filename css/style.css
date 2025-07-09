@@ -512,7 +512,7 @@ ion-icon {
 }
 
 .music-close button:hover {
-    color: #bb0000;
+    color: #44ff44;
 }
 
 .music-player {
@@ -569,7 +569,7 @@ ion-icon {
 .music-controls.collapsed .music-play-btn {
     width: 4vw;
     height: 4vw;
-    font-size: 2vw;
+    font-size: 4vw;
 }
 
 .music-url input {
@@ -609,7 +609,7 @@ ion-icon {
     height: 6vw;
     border: none;
     background: transparent;
-    font-size: 2.5vw;
+    font-size: 5vw;
     cursor: pointer;
     display: flex;
     align-items: center;

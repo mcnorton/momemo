@@ -136,7 +136,7 @@ class MusicPlayer {
         messageElement.textContent = 'Only the pure in heart can make a good soup -Ludwig Van Beethoven-';
         messageElement.className = 'music-message-text success';
         playBtn.disabled = false;
-        playIcon.setAttribute('name', 'play');
+        playIcon.setAttribute('name', 'play-circle-outline');
         return true;
     }
 
