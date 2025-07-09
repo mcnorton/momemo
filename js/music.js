@@ -126,10 +126,10 @@ class MusicPlayer {
         const playIcon = playBtn.querySelector('ion-icon');
         
         if (!url.trim() || !this.validateYouTubeUrl(url) || !this.extractVideoId(url)) {
-            messageElement.innerHTML = 'I need some <ion-icon name="logo-youtube"></ion-icon>YouTube URL.';
+            messageElement.innerHTML = '<ion-icon name="logo-youtube"></ion-icon>YouTube > [Share] > [Copy] > [Paste]';
             messageElement.className = 'music-message-text';
             playBtn.disabled = true;
-            playIcon.setAttribute('name', 'alert-circle');
+            playIcon.setAttribute('name', 'link');
             return false;
         }
 
