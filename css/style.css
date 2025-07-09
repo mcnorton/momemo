@@ -61,6 +61,8 @@ ion-icon {
     position: relative;
 }
 
+
+
 .right {
     width: 50%; 
     height: 100vh;
@@ -478,6 +480,202 @@ ion-icon {
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
     display: none;
+}
+
+/* Music Player Modal */
+.music-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000000;
+    opacity: 80%;
+    display: none;
+}
+
+.music-close {
+    position: absolute;
+    z-index: 10;
+    right: 2vw;
+    top: 2vw;
+}
+
+.music-close button {
+    color: white;
+    border: 0;
+    background-color: transparent;
+    font-size: 4vw;
+    cursor: pointer;
+}
+
+.music-close button:hover {
+    color: #bb0000;
+}
+
+.music-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.music-iframe-container {
+    width: 100%;
+    height: 100%;
+}
+
+.music-iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: black;
+    object-fit: cover;
+}
+
+.music-controls {
+    position: absolute;
+    bottom: 7vh;
+    right: 4vw;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 15px;
+    padding: 2vw 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+    min-width: 400px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+}
+
+.music-controls.collapsed {
+    min-width: auto;
+    padding: 1vw;
+    gap: 0;
+}
+
+.music-controls.collapsed .music-url,
+.music-controls.collapsed .music-message,
+.music-controls.collapsed .music-loop-btn {
+    display: none;
+}
+
+.music-controls.collapsed .music-play-btn {
+    width: 4vw;
+    height: 4vw;
+    font-size: 2vw;
+}
+
+.music-url input {
+    width: auto;
+    min-width: 300px;
+    max-width: 60vw;
+    height: 3vw;
+    border: none;
+    border-bottom: 1px solid #d5d5d5;
+    color: white;
+    background-color: transparent;
+    text-align: center;
+    font-size: 1.2vw;
+    outline: none;
+    padding: 0 1vw;
+    overflow: hidden;
+}
+
+.music-url input::placeholder {
+    color: #d5d5d5;
+}
+
+.music-message {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
+.music-play-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.music-play-btn {
+    width: 6vw;
+    height: 6vw;
+    border: none;
+    background: transparent;
+    font-size: 2.5vw;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.music-play-btn:disabled {
+    color: #ff4444;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.music-play-btn:not(:disabled) {
+    color: #44ff44;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.music-play-btn:not(:disabled):hover {
+    color: #33cc33;
+    transform: scale(1.05);
+}
+
+.music-loop-btn {
+    width: 4vw;
+    height: 4vw;
+    border: none;
+    background: transparent;
+    font-size: 1.8vw;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: white;
+    margin-left: 1vw;
+    align-self: center;
+}
+
+.music-loop-btn.active {
+    color: #44ff44;
+}
+
+.music-loop-btn:hover {
+    color: #33cc33;
+    transform: scale(1.05);
+}
+
+.music-message-text {
+    font-size: 1vw;
+    text-align: center;
+    min-height: 1.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vw;
+    color: #ff4444;
+}
+
+.music-message-text ion-icon {
+    font-size: 1vw;
+}
+
+.music-message-text.success {
+    color: #44ff44;
 }
 
 /*************************

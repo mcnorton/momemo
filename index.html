@@ -68,6 +68,7 @@
           <button id="score-open" title="SCORE BOARD"><ion-icon name="game-controller-outline"></ion-icon></button>
           <button id="chalk-open" title="CHALK BOARD"><ion-icon name="create-outline"></ion-icon></button>
           <button id="calendar-open" title="SIMPLE CALENDAR"><ion-icon name="calendar-outline"></ion-icon></button>
+          <button id="music-open" title="MUSIC PLAYER"><ion-icon name="logo-youtube"></ion-icon></button>
         </div>
 
         <div id="quote" class="quote">
@@ -186,6 +187,36 @@
       <div id="cal-body" class="cal-body"></div>
     </div>
 
+        <!-- Music Player Modal -->
+    <div id="music-modal" class="music-modal">
+      <div class="music-close">
+        <button id="music-close-button" title="CLOSE">
+          <span><ion-icon name="close-circle-outline"></ion-icon></span>
+        </button>
+      </div>
+      <div class="music-player">
+        <div id="music-iframe-container" class="music-iframe-container">
+          <!-- YouTube iframe will be inserted here -->
+        </div>
+      </div>
+      <div class="music-controls">
+        <div class="music-url">
+          <input id="music-url-input" type="text" placeholder="YouTube URL..." maxlength="200">
+        </div>
+        <div class="music-message">
+          <span id="music-message-text" class="music-message-text"></span>
+        </div>
+        <div class="music-play-section">
+          <button id="music-play-btn" class="music-play-btn" disabled>
+            <ion-icon name="alert-circle"></ion-icon>
+          </button>
+          <button id="music-loop-btn" class="music-loop-btn" title="LOOP">
+            <ion-icon name="repeat"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Rotation arrow -->
     <div id="rotation" class="rotation">
       <div>
@@ -215,6 +246,7 @@
     <script src="js/chalk.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/wakelock.js"></script>
+    <script src="js/music.js"></script>
 
     <script src="js/pwa.js"></script>
     <script>
