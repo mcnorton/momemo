@@ -2,13 +2,12 @@
 // 배경화면은 img 폴더에 저장되어 있습니다.
 const images = [
     "",
+    "grapefruit.jpg",
+    "summer.png",
     "bloom.jpg",
     "spring.jpg",
     "aibook.jpg",
     "rain.jpg",
-    "flower1.jpg",
-    "flower2.jpg",
-    "flower3.jpg",
     "tulips_y.jpg",
     "tulips_w.jpg",
     "leaves.jpg",
