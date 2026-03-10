@@ -127,7 +127,7 @@
 ---
 
 ## Special Thanks!
-> 후원자 - 김기성, 김찬  
+> 후원자 - 소영, 현석, 기성, 찬  
 > Nomardcoder (Vanilla JS Course) - https://nomadcoders.co/  
 > Pixabay - https://pixabay.com/  
 > Internet Archive - https://archive.org/  
