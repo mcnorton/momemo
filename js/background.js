@@ -2,18 +2,18 @@
 // 배경화면은 img 폴더에 저장되어 있습니다.
 const images = [
     "",
-    "0-solarsystem.png",
-    "9-forest.jpg",
-    "9-field.jpg",
-    "bloom.jpg",
-    "spring.jpg",
+    "00-solarsystem.png",
+    "03-schoolbag.jpg",
+    "04-spring.jpg",
     "aibook.jpg",
     "rain.jpg",
+    "09-forest.jpg",
     "tulips_y.jpg",
     "tulips_w.jpg",
     "leaves.jpg",
     "art.jpg",
     "geo.png",
+    "90-keyboard.jpg",
     "gwanghwa.jpg",
     "dokdo.jpg"
 ]
