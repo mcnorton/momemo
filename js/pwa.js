@@ -2,6 +2,7 @@ const infobelt = document.getElementById("info");
 let savedPrompt = null;
 
 window.addEventListener("beforeinstallprompt", beforeInstall);
+window.addEventListener("appinstalled", onAppInstalled);
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
@@ -14,47 +15,45 @@ if ('serviceWorker' in navigator) {
 }
 
 function beforeInstall(event) {
-    createInstallButton();
     event.preventDefault();
     savedPrompt = event;
+    createInstallButton();
 }
 
 
-function alreadyInstalled() {
-    savedPrompt = null;
+function onAppInstalled() {
     console.log("Already Installed");
-    install.hidden = true;
+    savedPrompt = null;
+    removeInstallButton();
 }
 
 
 async function onClickInstall() {
-    removeInstallButton();
+    if (savedPrompt === null) {
+        return;
+    }
+
     savedPrompt.prompt();
 
     const {outcome} = await savedPrompt.userChoice;
 
     if (outcome === 'accepted') {
+        // 설치를 수락하면 버튼을 제거합니다.
         console.log('PWA Install Accepted');
+        removeInstallButton();
+        savedPrompt = null;
     } else if (outcome === 'dismissed') {
+        // 설치를 취소하면 버튼을 남겨 다시 시도할 수 있게 합니다.
         console.log('PWA Install Dismissed');
     }
-
-    savedPrompt = null;
-
-    /* Promise
-    savedPrompt.userChoice.then(
-    function(choiceAB){
-        if (choiceAB.outcome === 'accepted') {
-            install.hidden = true;
-        } else {
-            install.hidden = false;
-        }
-        savedPrompt = null;
-    });
-    */
 }
 
 function createInstallButton() {
+    // 이미 버튼이 있으면 중복 생성하지 않습니다.
+    if (document.getElementById("install") !== null) {
+        return;
+    }
+
     const button = document.createElement("button");
     const ionicon = document.createElement("ion-icon");
 
@@ -70,5 +69,8 @@ function createInstallButton() {
 }
 
 function removeInstallButton() {
-    document.getElementById("install").remove();
+    const button = document.getElementById("install");
+    if (button !== null) {
+        button.remove();
+    }
 }
