@@ -1,11 +1,15 @@
 // Music Player for YouTube
+const KEY_MUSIC_HISTORY = 'musicHistory';
+const MUSIC_HISTORY_MAX = 5;
+
 class MusicPlayer {
     constructor() {
         this.currentUrl = '';
         this.player = null;
         this.isLoopEnabled = false;
         this.currentTime = 0;
-        
+        this.history = []; // { url, videoId, title }
+
         this.init();
     }
 
@@ -41,6 +45,12 @@ class MusicPlayer {
             this.resumeAutoCollapse();
         });
 
+        const clearBtn = document.getElementById('music-clear-btn');
+        clearBtn.addEventListener('click', () => {
+            this.clearUrlInput();
+            urlInput.focus();
+        });
+
         const playBtn = document.getElementById('music-play-btn');
         playBtn.addEventListener('click', () => {
             if (!playBtn.disabled) {
@@ -67,6 +77,10 @@ class MusicPlayer {
     openModal() {
         const modal = document.getElementById('music-modal');
         modal.style.display = 'block';
+
+        // 반투명 모드에서 할일 목록·인사말 감추기 (다른 모달과 동일)
+        document.getElementById('right').style.visibility = 'hidden';
+        document.getElementById('greeting').style.visibility = 'hidden';
         
         const urlInput = document.getElementById('music-url-input');
         urlInput.value = this.currentUrl;
@@ -89,6 +103,10 @@ class MusicPlayer {
         }
         
         modal.style.display = 'none';
+
+        // 할일 목록·인사말 다시 표시
+        document.getElementById('right').style.visibility = 'visible';
+        document.getElementById('greeting').style.visibility = 'visible';
     }
 
     validateYouTubeUrl(url) {
@@ -158,6 +176,9 @@ class MusicPlayer {
         this.currentUrl = url;
         localStorage.setItem('bgmusic', url);
 
+        // 히스토리에 추가하고 목록을 다시 그린다 (제목은 onReady에서 채워진다)
+        this.addToHistory(url, videoId);
+
         // Create or update player with current loop setting
         this.createPlayer(videoId, 0);
     }
@@ -194,6 +215,13 @@ class MusicPlayer {
                     console.log('Player ready');
                     if (startTime > 0) {
                         event.target.seekTo(startTime);
+                    }
+                    // 영상 제목이 준비되면 히스토리 항목에 채워 넣고 다시 그린다
+                    if (typeof event.target.getVideoData === 'function') {
+                        const data = event.target.getVideoData();
+                        if (data && data.title) {
+                            this.updateHistoryTitle(videoId, data.title);
+                        }
                     }
                 },
                 onStateChange: (event) => {
@@ -331,7 +359,10 @@ class MusicPlayer {
         if (savedUrl) {
             this.currentUrl = savedUrl;
         }
-        
+
+        // 저장된 히스토리 복원 (비어 있고 bgmusic만 있으면 그 URL로 한 줄 채움)
+        this.loadHistory();
+
         // Load saved loop setting
         const savedLoop = localStorage.getItem('musicLoop');
         if (savedLoop) {
@@ -345,6 +376,89 @@ class MusicPlayer {
                 loopBtn.classList.remove('active');
             }
         }
+    }
+
+    loadHistory() {
+        const saved = localStorage.getItem(KEY_MUSIC_HISTORY);
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) {
+                    this.history = parsed.slice(-MUSIC_HISTORY_MAX);
+                }
+            } catch (e) {
+                this.history = [];
+            }
+        }
+
+        // 히스토리가 비어 있고 저장된 URL만 있으면 그 URL로 한 줄을 채운다
+        if (this.history.length === 0 && this.currentUrl) {
+            const videoId = this.extractVideoId(this.currentUrl);
+            if (videoId) {
+                this.history.push({ url: this.currentUrl, videoId: videoId, title: '' });
+            }
+        }
+
+        this.renderHistory();
+    }
+
+    saveHistory() {
+        localStorage.setItem(KEY_MUSIC_HISTORY, JSON.stringify(this.history));
+    }
+
+    addToHistory(url, videoId) {
+        // 같은 videoId는 제거해 중복하지 않고, 맨 아래(최근)로 옮긴다
+        const existing = this.history.find((item) => item.videoId === videoId);
+        const title = existing ? existing.title : '';
+        this.history = this.history.filter((item) => item.videoId !== videoId);
+        this.history.push({ url: url, videoId: videoId, title: title });
+        this.history = this.history.slice(-MUSIC_HISTORY_MAX);
+        this.saveHistory();
+        this.renderHistory();
+    }
+
+    updateHistoryTitle(videoId, title) {
+        const item = this.history.find((entry) => entry.videoId === videoId);
+        if (item && item.title !== title) {
+            item.title = title;
+            this.saveHistory();
+            this.renderHistory();
+        }
+    }
+
+    renderHistory() {
+        const list = document.getElementById('music-history');
+        if (!list) {
+            return;
+        }
+        list.innerHTML = '';
+
+        this.history.forEach((item) => {
+            const li = document.createElement('li');
+            li.textContent = item.title || item.url;
+            if (item.url === this.currentUrl) {
+                li.classList.add('current');
+            }
+            li.addEventListener('click', () => {
+                this.playFromHistory(item.url);
+            });
+            list.appendChild(li);
+        });
+    }
+
+    playFromHistory(url) {
+        const urlInput = document.getElementById('music-url-input');
+        urlInput.value = url;
+        this.validateUrl(url);
+        this.adjustInputWidth(urlInput);
+        this.loadMusic();
+    }
+
+    clearUrlInput() {
+        const urlInput = document.getElementById('music-url-input');
+        urlInput.value = '';
+        this.validateUrl(''); // 안내 문구·재생 버튼 상태 초기화
+        this.adjustInputWidth(urlInput);
     }
 }
 
