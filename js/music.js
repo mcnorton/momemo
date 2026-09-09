@@ -228,7 +228,7 @@ class MusicPlayer {
         
         const textWidth = tempSpan.offsetWidth;
         const padding = 32;
-        const minWidth = 300;
+        const minWidth = window.innerWidth * 0.24; // CSS min-width 24vw와 일치, 좁은 가로에서 넘침 방지
         const maxWidth = window.innerWidth * 0.8;
         
         let newWidth = Math.max(textWidth + padding, minWidth);

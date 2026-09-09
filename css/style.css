@@ -14,6 +14,9 @@
 
     /* 고운돋움 */
     font-family: 'Gowun Dodum', sans-serif;
+
+    /* padding/border를 width에 포함해 100% 열이 가로로 넘치지 않게 */
+    box-sizing: border-box;
 }
 
 body {
@@ -24,6 +27,14 @@ body {
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
+}
+
+/* 2열(.left/.right)만 flex로 배치.
+   body를 flex로 만들면 오버레이의 display:inherit가 flex로 바뀌어 깨지므로
+   래퍼에만 적용한다. fixed 오버레이는 흐름 밖이라 영향 없음. */
+.stage {
+    display: flex;
+    width: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -52,23 +63,27 @@ ion-icon {
 
 /* Half Line */
 .left {
+    flex: 0 0 50%;
     width: 50%; 
     height: 100vh;
+    height: 100dvh; /* 모바일 주소창 포함 뷰포트 대신 실제 보이는 높이 */
     text-align: center;
     margin: 0;
-    display: block;
-    float: left;
     position: relative;
 }
 
 
 
 .right {
+    flex: 0 0 50%;
     width: 50%; 
     height: 100vh;
+    height: 100dvh;
     margin: 0;
-    display: block;
     overflow: hidden;
+    /* 입력창 + 목록을 세로로 쌓고, 목록이 남은 높이를 채우게 */
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -180,18 +195,24 @@ ion-icon {
     user-select: none;
 }
 
+/* h1 기본 마진(em 기준)이 12vw 글자와 함께 세로를 잡아먹지 않게 리셋 */
+#clock {
+    margin: 0;
+}
+
 .hourmin {
     margin-left: 5vw;
     line-height: 100%;
     letter-spacing: 0.1ch;
-    font-size: 12vw;
+    /* 가로만 보고 커지지 않게 세로(vh)로도 상한을 건다 */
+    font-size: min(12vw, 20vh);
 }
 
 .second {
     display: inline-block;
     width: 8vw;
     line-height: 100%;
-    font-size: 6vw;
+    font-size: min(6vw, 10vh);
     text-align: left;
     opacity: 30%;
     margin: 0;
@@ -250,7 +271,6 @@ ion-icon {
 
 .login-name::placeholder {
     color: gray;
-    size: 2vw;
 }
 
 .login-submit {
@@ -275,15 +295,15 @@ ion-icon {
 
 
 .quote {
-    padding: none;
+    padding: 0;
     text-align: center;
     bottom: 2vmax;
 }
 
 .quote p {
     font-size: 1.5vw;
-    line-height: 10%;
-    letter-spacing: -2px;
+    line-height: 1.2;
+    letter-spacing: -0.1vw;
 }
 
 .quote span {
@@ -299,8 +319,9 @@ ion-icon {
 
 .todo {
     width: 100%;
-    height: 90%;
-    display: inline-block;
+    /* 형제(입력창) 높이를 뺀 나머지를 채워 낮은 창에서도 넘치지 않게 */
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: auto;
 }
 
@@ -329,7 +350,7 @@ ion-icon {
     word-wrap: break-word;
     text-indent: -3vw;
     text-decoration-color: #00000077;
-    text-decoration-thickness: 0.35rem;
+    text-decoration-thickness: 0.35vw;
 }
 
 .todo-list button {
@@ -403,8 +424,9 @@ ion-icon {
 /* Analog Clock */
 .analogclock {
     position: relative;
-    width: 33vw;
-    height: 33vw;
+    /* 정사각 유지 + 세로가 짧아도 넘치지 않게 두 축 중 작은 값 */
+    width: min(33vw, 70vh);
+    height: min(33vw, 70vh);
     margin: 0 auto;
     border: 0.3vw solid silver;
     /* border: none; */
@@ -431,9 +453,9 @@ ion-icon {
     width: 4%;
     height: 30%;
     transform-origin: 50% 85%;
-    border: 0.2em solid white;
+    border: 0.25vw solid white; /* em 고정폭 대신 시계와 함께 스케일 */
     background-color: transparent;
-    border-radius: 2em;
+    border-radius: 1vw;
 }
 
 .anmin {
@@ -441,7 +463,7 @@ ion-icon {
     height: 50%;
     background-color: white;
     transform-origin: 50% 85%;
-    border-radius: 2em;
+    border-radius: 1vw;
     opacity: 80%
 }
 
@@ -450,7 +472,7 @@ ion-icon {
     height: 55%;
     background-color: red;
     transform-origin: 50% 85%;
-    border-radius: 2em;
+    border-radius: 1vw;
 }
 
 .anpin {
@@ -462,7 +484,7 @@ ion-icon {
     width: 1.5%;
     height: 1.5%;
     margin: auto;
-    border: 4px solid red;
+    border: 0.25vw solid red;
     border-radius: 50%;
     background-color: black;
 }
@@ -548,7 +570,7 @@ ion-icon {
     flex-direction: column;
     align-items: center;
     gap: 1vw;
-    min-width: 400px;
+    min-width: 30vw; /* px 대신 화면과 함께 스케일, 좁은 가로에서 넘침 방지 */
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     transition: all 0.5s ease;
@@ -574,7 +596,7 @@ ion-icon {
 
 .music-url input {
     width: auto;
-    min-width: 300px;
+    min-width: 24vw;
     max-width: 60vw;
     height: 3vw;
     border: none;
@@ -741,7 +763,7 @@ ion-icon {
 .timer {
     position: relative;
     width: 60vw;
-    height: 45vw;
+    height: min(45vw, 90vh); /* 세로만 상한, 너비는 제목이 들어갈 여유 유지 */
     border-radius: 20px;
 }
 
@@ -760,8 +782,9 @@ ion-icon {
 
 .timer-circle {
     position: relative;
-    width: 35vw;
-    height: 35vw;
+    /* 원형 유지 + 세로 상한 */
+    width: min(35vw, 55vh);
+    height: min(35vw, 55vh);
     margin: 0 auto;
     border-radius: 50%;
     background-color: #bb0000;
@@ -773,11 +796,11 @@ ion-icon {
     background-color: white;
     top: 50%;
     left: 50%;
-    width: 10vw;
-    height: 10vw;
+    width: min(10vw, 16vh);
+    height: min(10vw, 16vh);
     border-radius: 50%;
     text-align: center;
-    line-height: 10vw;
+    line-height: min(10vw, 16vh);
     transform: translate(-50%, -50%);
 }
 
@@ -836,8 +859,8 @@ ion-icon {
     display: flex;
     justify-content: center;
     position: fixed;
-    width: 20vw;
-    height: 20vw;
+    width: min(20vw, 32vh);
+    height: min(20vw, 32vh);
     align-items: center;
     text-align: center;
     border-radius: 30px;
@@ -948,7 +971,8 @@ ion-icon {
     top: 50%;
     left: 50%;
     text-align: center;
-    font-size: 30vw;
+    /* 극단 와이드에서 숫자 높이가 패널을 넘지 않게 세로 상한 */
+    font-size: min(30vw, 60vh);
     letter-spacing: -0.1ch;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -1192,8 +1216,9 @@ ion-icon {
     align-items: center;
     background-color: white;
     border: none;
-    width: 100vw;
+    width: 100%; /* 100vw는 스크롤바 폭까지 포함해 가로 넘침 유발 */
     height: 100vh;
+    height: 100dvh;
     opacity: 95%;
 }
 .cal-head {
@@ -1328,7 +1353,7 @@ ion-icon {
 }
 
 
-@media only screen and (max-aspect-ratio: 8/9) and (orientation: portrait) {
+@media only screen and (orientation: portrait) {
 /*    html {
         transform: rotate(-90deg);
         transform-origin: top left;
@@ -1345,6 +1370,7 @@ ion-icon {
     }
 
     .left {
+        flex-basis: 100%;
         width: 100%;
     }
     .rotation {
