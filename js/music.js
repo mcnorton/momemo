@@ -433,7 +433,8 @@ class MusicPlayer {
         }
         list.innerHTML = '';
 
-        this.history.forEach((item) => {
+        // 최신(가장 최근 재생)이 맨 위, 과거 히스토리가 아래로 오도록 역순으로 그린다
+        this.history.slice().reverse().forEach((item) => {
             const li = document.createElement('li');
             li.textContent = item.title || item.url;
             if (item.url === this.currentUrl) {

@@ -28,6 +28,7 @@ const shellUrls = [
   '/js/calendar.js',
   '/js/wakelock.js',
   '/js/music.js',
+  '/js/version.js',
   '/js/pwa.js',
 ];
 

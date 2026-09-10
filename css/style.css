@@ -310,6 +310,17 @@ ion-icon {
     font-size: 1vw;
 }
 
+/* 빌드 버전 : 왼쪽 맨 아래 작은 글씨 */
+.version {
+    position: absolute;
+    left: 1vw;
+    bottom: 1vh;
+    font-size: 0.8vw;
+    color: white;
+    opacity: 20%;
+    pointer-events: none;
+}
+
 
 /* To Do List */
 .todo-top{
@@ -742,6 +753,7 @@ ion-icon {
 }
 
 .music-history li {
+    max-width: 33vw; /* 화면 가로의 1/3 이내로 제한, 중앙 재생 버튼과 겹침 방지 */
     color: white;
     opacity: 30%; /* 반투명 */
     font-size: 1.1vw;
@@ -754,6 +766,7 @@ ion-icon {
 
 .music-history li.current {
     opacity: 80%; /* 현재 재생 중은 진하게 */
+    font-size: 1.32vw; /* 기본(1.1vw)보다 약 20% 크게 */
 }
 
 /*************************
