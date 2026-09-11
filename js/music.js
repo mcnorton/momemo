@@ -1,6 +1,7 @@
 // Music Player for YouTube
 const KEY_MUSIC_HISTORY = 'musicHistory';
 const MUSIC_HISTORY_MAX = 5;
+const DEFAULT_MUSIC_URL = 'https://youtu.be/DAbQVE8tkOM?si=t_3O8a3IIbQzQN2o';
 
 class MusicPlayer {
     constructor() {
@@ -391,7 +392,12 @@ class MusicPlayer {
             }
         }
 
-        // 히스토리가 비어 있고 저장된 URL만 있으면 그 URL로 한 줄을 채운다
+        // 처음 실행(저장된 URL·히스토리 없음)일 때 기본 YouTube 주소
+        if (this.history.length === 0 && !this.currentUrl) {
+            this.currentUrl = DEFAULT_MUSIC_URL;
+        }
+
+        // 히스토리가 비어 있고 URL이 있으면(저장값 또는 기본값) 목록에 한 줄을 채운다
         if (this.history.length === 0 && this.currentUrl) {
             const videoId = this.extractVideoId(this.currentUrl);
             if (videoId) {

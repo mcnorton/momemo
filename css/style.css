@@ -762,6 +762,13 @@ ion-icon {
     overflow: hidden;
     text-overflow: ellipsis; /* 넘치면 "..."으로 자름 */
     cursor: pointer;
+    padding: 0 0.6vw;
+    border-radius: 0.3vw;
+}
+
+.music-history li:hover {
+    opacity: 100%; /* 배경 위에서 흰 글자 100% */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
 }
 
 .music-history li.current {
