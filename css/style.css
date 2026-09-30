@@ -51,7 +51,7 @@ ion-icon {
 /* Slowhide, Hide Effect */
 .slowhide {
     opacity: 0;
-    transition: 40s all;
+    transition: opacity 40s;
     text-decoration: line-through;
 }
 
@@ -352,10 +352,12 @@ ion-icon {
 }
 
 .todo-list li {
+    position: relative;
     font-size: 2vw;
     font-weight: bold;
     border-bottom: 1px solid #909090;
-    padding: 1vw 0.5vw 1vw 3vw;
+    /* 오른쪽만 핸들 폭만큼 더한다. 왼쪽 들여쓰기와 체크 줄은 그대로 */
+    padding: 1vw 3vw 1vw 3vw;
     list-style: none;
     word-break: break-all;
     word-wrap: break-word;
@@ -383,6 +385,61 @@ ion-icon {
 .todo-list button span {
     position: absolute;
     transform: translate(-40%, -50%);
+}
+
+.todo-list button.todo-handle {
+    position: absolute;
+    /* 체크 칸은 글자 줄에서 0.5vw 내려와 있다. 그 칸과 같은 높이에 둔다 */
+    top: 1.5vw;
+    right: 0.5vw;
+    width: 2vw;
+    height: 2vw;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    color: white;
+    font-size: 2vw;
+    line-height: 0;
+    opacity: 50%;
+    cursor: grab;
+    touch-action: none;
+}
+
+.todo-list li.dragging button.todo-handle {
+    cursor: grabbing;
+    opacity: 100%;
+}
+
+.todo-list li.dragging {
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.14);
+    -webkit-backdrop-filter: blur(1vw);
+    backdrop-filter: blur(1vw);
+}
+
+.todo-list textarea.todo-edit {
+    display: inline-block;
+    /* 목록 글자는 줄 맨 위에 붙는다. middle이면 입력 글자가 아래로 떨어진다 */
+    vertical-align: top;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 2vw;
+    font-weight: bold;
+    line-height: inherit;
 }
 
 
