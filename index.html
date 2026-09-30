@@ -44,16 +44,9 @@
         <div class="clock">
             <h1 id="clock"><span class="hourmin">00:00</span><span class="second">00</span></h1>
         </div>
-        <div>
-            <form id="login-form" class="login-form hidden">
-                <input required maxlength="15" size="15" class="login-name" name="login-name" type="text" placeholder="What is your name?" autocomplete="off">
-                <button type="submit" class="login-submit"><ion-icon name="arrow-back-circle-outline"></ion-icon></button>
-            </form>
-        </div>
-        <div id="greeting" class="hidden">
+        <div id="greeting">
             <h4></h4>
-            <h3></h3>
-            <button title="EDIT"><ion-icon name="refresh-circle-outline"></ion-icon></button>
+            <input id="greeting-name" type="text" maxlength="80" autocomplete="off">
         </div>
       </div>
       <div id="analogclock" class="analogclock" hidden>

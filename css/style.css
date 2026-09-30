@@ -221,66 +221,52 @@ ion-icon {
 
 
 /* Greeting */
-.greeting {
+#greeting {
+    width: 100%;
     text-align: center;
-    display: inline-block;
 }
 
-.greeting h3 {
-    font-size: 3vw;
+#greeting h4 {
+    display: block;
     margin: 0;
-}
-
-.greeting h4 {
     font-size: 2.5vw;
+    line-height: 1.2;
     opacity: 50%;
-    margin: 0;
 }
 
-.greeting button {
-    font-size: 2vw;
-    background-color: transparent;
-    color: white;
-    opacity: 20%;
-    border: none;
-    cursor: pointer;
-}
-
-
-/* What is your name */
-.login-form {
-    text-align: center;
-}
-
-.login-form > input {
-    width: 70%;
-    font-size: 2vw;
-}
-
-.login-name {
+/* 이름 입력란에는 밑줄을 두지 않는다 */
+#greeting-name {
+    display: block;
+    width: 90%;
     margin: 0 auto;
+    padding: 0.15em 0;
     border: none;
     outline: none;
-    border-bottom: 2px solid white;
-    padding: 10px;
-    font-size: 3vw;
-    color: white;
-    text-align: center;
     background-color: transparent;
+    color: white;
+    font-size: 3vw;
+    line-height: 1.2;
+    text-align: center;
+    caret-color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.login-name::placeholder {
+#greeting-name:read-only {
+    cursor: default;
+    caret-color: transparent;
+    text-overflow: ellipsis;
+}
+
+#greeting-name:not(:read-only) {
+    cursor: text;
+    text-overflow: clip;
+}
+
+#greeting-name::placeholder {
     color: gray;
-}
-
-.login-submit {
-    border: none;
-    outline: none;
-    font-size: 3vw;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    background-color: transparent;
+    opacity: 1;
 }
 
 

@@ -1,73 +1,124 @@
-const loginForm = document.querySelector("#login-form");
-const loginInput = document.querySelector("#login-form input");
-const logout = document.querySelector("#greeting button");
-
-const greeting = document.querySelector("#greeting");
 const sayhello = document.querySelector("#greeting h4");
-const sayname = document.querySelector("#greeting h3");
+const sayname = document.querySelector("#greeting-name");
 
-const HIDDEN_CLASSNAME = "hidden";
-const GREETING_CLASSNAME = "greeting";
 const KEY_USERNAME = "username";
-
-const savedUsername = localStorage.getItem(KEY_USERNAME)
+const MAX_NAME = 80;
 const question = [
     "What is your name?",
     "What is your goal for today?",
     "How is the weather?"
 ];
 
-let t_seq = 0;
+let todayquestion = question[Math.floor(Math.random() * question.length)];
 
-    if (savedUsername === null) {
-        loginForm.classList.remove(HIDDEN_CLASSNAME);
-    } else {
-        printGreeting(savedUsername);
-    }
+sayname.addEventListener("dblclick", onDblClickName);
+sayname.addEventListener("keydown", onKeyDownName);
+sayname.addEventListener("focus", onFocusName);
+sayname.addEventListener("blur", onBlurName);
+document.addEventListener("pointerdown", onPointerDownName);
 
-    let todayquestion = question[Math.floor(Math.random() * (question.length))];
-    loginInput.placeholder = todayquestion;
-    // console.log("Question: " + todayquestion);
-
-loginForm.addEventListener("submit", onLoginSubmit);
-logout.addEventListener ("click", onLogoutSubmit);
-
+loadSavedName();
+printSayhello();
 setInterval(printSayhello, 1000 * 60 * 30);
 
-function onLoginSubmit(event) {
+function onDblClickName(event) {
+    if (sayname.value.trim() === "") {
+        return;
+    }
     event.preventDefault();
-    const username = loginInput.value;
-    localStorage.setItem(KEY_USERNAME, username);
-    loginForm.classList.add(HIDDEN_CLASSNAME);
-    printGreeting(username);
+    sayname.readOnly = false;
+    sayname.focus();
+    placeNameCaret();
+    setTimeout(function() {
+        if (document.activeElement === sayname) {
+            placeNameCaret();
+        }
+    }, 0);
 }
 
-function onLogoutSubmit(event) {
-    event.preventDefault();
-    loginInput.value = "";
-    localStorage.removeItem(KEY_USERNAME);
-    greeting.classList.remove(GREETING_CLASSNAME);
-    greeting.classList.add(HIDDEN_CLASSNAME);
-    loginForm.classList.remove(HIDDEN_CLASSNAME);
+function placeNameCaret() {
+    const end = sayname.value.length;
+    sayname.setSelectionRange(end, end);
 }
 
-function printGreeting(username) {
+function onKeyDownName(event) {
+    // 한글 조합 중 Enter는 입력 완료가 아니다
+    if (event.isComposing || event.keyCode === 229) {
+        return;
+    }
+    if (event.key !== "Enter") {
+        return;
+    }
+    event.preventDefault();
+    finishNameEdit();
+    sayname.blur();
+}
 
-    printSayhello();
+function onFocusName() {
+    if (!sayname.readOnly) {
+        sayname.placeholder = "";
+    }
+}
 
-    sayname.innerText = username;
-    greeting.classList.add(GREETING_CLASSNAME)
-    greeting.classList.remove(HIDDEN_CLASSNAME);
+function onBlurName() {
+    finishNameEdit();
+}
+
+function onPointerDownName(event) {
+    if (event.target === sayname || sayname.readOnly) {
+        return;
+    }
+    finishNameEdit();
+}
+
+function finishNameEdit() {
+    if (sayname.readOnly) {
+        return;
+    }
+
+    const name = clipName(sayname.value.trim());
+    sayname.value = name;
+
+    if (name === "") {
+        localStorage.removeItem(KEY_USERNAME);
+        sayname.readOnly = false;
+        sayname.placeholder = todayquestion;
+        return;
+    }
+
+    localStorage.setItem(KEY_USERNAME, name);
+    sayname.readOnly = true;
+}
+
+function loadSavedName() {
+    const savedUsername = localStorage.getItem(KEY_USERNAME);
+
+    if (savedUsername === null || savedUsername.trim() === "") {
+        sayname.value = "";
+        sayname.readOnly = false;
+        sayname.placeholder = todayquestion;
+        return;
+    }
+
+    sayname.value = clipName(savedUsername.trim());
+    sayname.readOnly = true;
+}
+
+function clipName(name) {
+    if (name.length <= MAX_NAME) {
+        return name;
+    }
+    return name.slice(0, MAX_NAME);
 }
 
 function printSayhello() {
     const date = new Date();
-    const hour = Number(date.getHours());
+    const hour = Math.floor(date.getHours());
     let say = "Good Afternoon";
 
-    if ( hour < 12 ) {
+    if (hour < 12) {
         say = "Good Morning";
-    } else if ( hour >= 18 ) {
+    } else if (hour >= 18) {
         say = "Good Evening";
     }
 
