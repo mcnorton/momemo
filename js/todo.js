@@ -176,6 +176,7 @@ function onDblClickToDo(event) {
     }
     event.preventDefault();
 
+    const hit = offsetAtPoint(span, event.clientX, event.clientY);
     const field = document.createElement("textarea");
     field.className = "todo-edit";
     field.rows = 1;
@@ -185,21 +186,35 @@ function onDblClickToDo(event) {
     field.style.height = span.offsetHeight + "px";
     span.replaceWith(field);
     field.focus();
-    placeMemoCaret(field);
-    setTimeout(function() {
-        if (field.isConnected && document.activeElement === field) {
-            placeMemoCaret(field);
-        }
-    }, 0);
+    const index = hit === null ? field.value.length : hit;
+    field.setSelectionRange(index, index);
     field.addEventListener("keydown", onKeyDownToDoEdit);
     field.addEventListener("blur", onBlurToDoEdit);
 }
 
 
 
-function placeMemoCaret(field) {
-    const end = field.value.length;
-    field.setSelectionRange(end, end);
+function offsetAtPoint(root, x, y) {
+    let node = null;
+    let offset = 0;
+    if (document.caretPositionFromPoint) {
+        const pos = document.caretPositionFromPoint(x, y);
+        if (pos) {
+            node = pos.offsetNode;
+            offset = pos.offset;
+        }
+    }
+    if (!node && document.caretRangeFromPoint) {
+        const range = document.caretRangeFromPoint(x, y);
+        if (range) {
+            node = range.startContainer;
+            offset = range.startOffset;
+        }
+    }
+    if (!node || node.nodeType !== Node.TEXT_NODE || !root.contains(node)) {
+        return null;
+    }
+    return offset;
 }
 
 

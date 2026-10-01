@@ -26,19 +26,75 @@ function onDblClickName(event) {
         return;
     }
     event.preventDefault();
+    const index = indexAtClientX(sayname, event.clientX);
     sayname.readOnly = false;
     sayname.focus();
-    placeNameCaret();
-    setTimeout(function() {
-        if (document.activeElement === sayname) {
-            placeNameCaret();
-        }
-    }, 0);
+    sayname.setSelectionRange(index, index);
 }
 
-function placeNameCaret() {
-    const end = sayname.value.length;
-    sayname.setSelectionRange(end, end);
+function indexAtClientX(input, clientX) {
+    const text = input.value;
+    if (text.length === 0) {
+        return 0;
+    }
+
+    const style = getComputedStyle(input);
+    const probe = document.createElement("span");
+    probe.style.position = "absolute";
+    probe.style.left = "-9999px";
+    probe.style.visibility = "hidden";
+    probe.style.whiteSpace = "pre";
+    probe.style.font = style.font;
+    probe.style.letterSpacing = style.letterSpacing;
+    probe.style.wordSpacing = style.wordSpacing;
+    document.body.appendChild(probe);
+
+    try {
+        const rect = input.getBoundingClientRect();
+        const padLeft = parseFloat(style.paddingLeft);
+        const padRight = parseFloat(style.paddingRight);
+        const innerWidth = rect.width - padLeft - padRight;
+        probe.textContent = text;
+        const textWidth = probe.getBoundingClientRect().width;
+        let textLeft = rect.left + padLeft - input.scrollLeft;
+        if (style.textAlign === "center") {
+            textLeft += (innerWidth - textWidth) / 2;
+        } else if (style.textAlign === "right" || style.textAlign === "end") {
+            textLeft += innerWidth - textWidth;
+        }
+
+        const x = clientX - textLeft;
+        if (x <= 0) {
+            return 0;
+        }
+        if (x >= textWidth) {
+            return text.length;
+        }
+
+        // 클릭보다 너비가 커지는 첫 글자 경계
+        let low = 0;
+        let high = text.length;
+        while (low < high) {
+            const mid = Math.floor((low + high) / 2);
+            probe.textContent = text.slice(0, mid);
+            if (probe.getBoundingClientRect().width < x) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        probe.textContent = text.slice(0, low);
+        const at = probe.getBoundingClientRect().width;
+        probe.textContent = text.slice(0, low - 1);
+        const prev = probe.getBoundingClientRect().width;
+        if (x - prev < at - x) {
+            return low - 1;
+        }
+        return low;
+    } finally {
+        probe.remove();
+    }
 }
 
 function onKeyDownName(event) {
