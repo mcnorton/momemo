@@ -58,6 +58,7 @@
       <div class="leftbottom">
         <!-- Tool Belt -->
         <div id="toolbelt" class="toolbelt">
+          <button id="bookmark-open" title="BOOKMARKS"><ion-icon name="home-outline"></ion-icon></button>
           <button id="timer-open" title="PIE TIMER"><ion-icon name="hourglass-outline"></ion-icon></button>
           <button id="score-open" title="SCORE BOARD"><ion-icon name="game-controller-outline"></ion-icon></button>
           <button id="chalk-open" title="CHALK BOARD"><ion-icon name="create-outline"></ion-icon></button>
@@ -218,6 +219,23 @@
       </div>
     </div>
 
+    <!-- Bookmark -->
+    <div id="bookmark" class="bookmark">
+      <div class="bookmark-title">
+        <button id="bookmark-edit" class="bookmark-edit" title="EDIT"><ion-icon name="add-circle-outline"></ion-icon></button>
+        <button id="bookmark-close" class="bookmark-close" title="CLOSE"><ion-icon name="close-circle-outline"></ion-icon></button>
+      </div>
+      <div id="bookmark-board" class="bookmark-board"></div>
+      <div id="bookmark-dialog" class="bookmark-dialog">
+        <div id="bookmark-preview-icon" class="bookmark-preview-icon is-empty"><ion-icon name="link-outline"></ion-icon></div>
+        <p id="bookmark-preview-title" class="bookmark-preview-title"></p>
+        <div class="bookmark-url-row">
+          <input id="bookmark-url" type="url" maxlength="500" placeholder="Enter the URL here... https://..." autocomplete="off" spellcheck="false">
+          <button id="bookmark-save" title="ADD" disabled><ion-icon name="add"></ion-icon></button>
+        </div>
+      </div>
+    </div>
+
     <!-- Rotation arrow -->
     <div id="rotation" class="rotation">
       <div>
@@ -247,6 +265,7 @@
     <script src="js/calendar.js"></script>
     <script src="js/wakelock.js"></script>
     <script src="js/music.js"></script>
+    <script src="js/bookmark.js"></script>
     <script src="js/version.js"></script>
 
     <script src="js/pwa.js"></script>

@@ -1323,6 +1323,300 @@ ion-icon {
 
 
 /******************************************************************/
+/* Bookmark                                                       */
+/******************************************************************/
+.bookmark {
+    --bookmark-icon: min(8vw, 12vh);
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+}
+
+.bookmark-edit,
+.bookmark-close {
+    position: fixed;
+    display: flex;
+    width: 7vw;
+    height: 7vw;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 4vw;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    outline: 0;
+}
+
+.bookmark-close {
+    top: 0;
+    right: 0;
+    z-index: 20;
+    opacity: 40%;
+}
+
+.bookmark-edit {
+    bottom: 0;
+    right: 0;
+    z-index: 22;
+    opacity: 30%;
+}
+
+.bookmark-board {
+    position: absolute;
+    top: 7.5vw;
+    right: 2vw;
+    bottom: 7.5vw;
+    left: 2vw;
+    display: grid;
+    grid-template-columns: repeat(8, var(--bookmark-icon));
+    grid-template-rows: repeat(4, calc(var(--bookmark-icon) + 3vh));
+    gap: 2.4vh 2vw;
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    user-select: none;
+}
+
+.bookmark-cell {
+    container-type: inline-size;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: var(--bookmark-icon);
+    height: calc(var(--bookmark-icon) + 3vh);
+    min-width: 0;
+    min-height: 0;
+}
+
+.bookmark-slot {
+    position: relative;
+    display: flex;
+    max-width: 100%;
+}
+
+.bookmark-launch,
+.bookmark-add {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.bookmark-launch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--bookmark-icon);
+    max-width: 100%;
+    touch-action: none;
+}
+
+.bookmark-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--bookmark-icon);
+    height: var(--bookmark-icon);
+    max-width: 100%;
+    flex: 0 0 auto;
+    border-radius: 22%;
+    border: 0.18vw solid rgba(255,255,255,0.45);
+    background-color: rgba(255,255,255,0.08);
+    font-size: calc(var(--bookmark-icon) * 0.36);
+    color: rgba(255,255,255,0.35);
+}
+
+.bookmark-icon,
+.bookmark-preview-icon {
+    border-radius: 22%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.12);
+    flex: 0 0 auto;
+}
+
+.bookmark-icon {
+    width: var(--bookmark-icon);
+    height: var(--bookmark-icon);
+    font-size: var(--bookmark-icon);
+}
+
+.bookmark-preview-icon {
+    width: min(8vw, 14vh);
+    height: min(8vw, 14vh);
+    font-size: min(8vw, 14vh);
+}
+
+.bookmark-preview-icon.is-empty {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.bookmark-icon img,
+.bookmark-preview-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.bookmark-icon ion-icon,
+.bookmark-preview-icon ion-icon {
+    font-size: 55%;
+    color: white;
+}
+
+.bookmark-label {
+    display: block;
+    width: 100%;
+    margin-top: 0.4vh;
+    font-size: min(1.05vw, 1.8vh);
+    line-height: 1.2;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+}
+
+@container (max-width: 64px) {
+    .bookmark-label {
+        display: none;
+    }
+}
+
+.bookmark-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    transform: translate(35%, -35%);
+    width: min(2.2vw, 4vh);
+    height: min(2.2vw, 4vh);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #bb0000;
+    font-size: min(2.2vw, 4vh);
+    cursor: pointer;
+    outline: none;
+}
+
+.bookmark-cell.is-dragging {
+    opacity: 30%;
+}
+
+.bookmark-cell.is-drop .bookmark-icon,
+.bookmark-cell.is-drop .bookmark-add {
+    box-shadow: 0 0 0 0.25vw lime;
+}
+
+.bookmark-ghost {
+    position: fixed;
+    z-index: 40;
+    pointer-events: none;
+    margin: 0;
+    opacity: 90%;
+}
+
+.bookmark-dialog {
+    display: none;
+    position: fixed;
+    z-index: 25;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2vh;
+    width: min(36vw, 70vh);
+    padding: 3vh 2vw;
+    background-color: rgba(0,0,0,0.92);
+    border: 0.2vw solid white;
+    border-radius: 1vw;
+}
+
+.bookmark-preview-title {
+    width: 100%;
+    min-height: 1.4em;
+    margin: 0;
+    text-align: center;
+    font-size: min(1.6vw, 2.6vh);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+}
+
+.bookmark-url-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0.6vw;
+}
+
+.bookmark-url-row input {
+    flex: 1;
+    min-width: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 0.15vw solid silver;
+    color: white;
+    font-size: min(1.4vw, 2.4vh);
+    outline: none;
+    caret-color: lime;
+    padding: 0.4vh 0;
+}
+
+.bookmark-url-row input::placeholder {
+    color: silver;
+}
+
+.bookmark-url-row input.is-valid {
+    color: #44ff44;
+}
+
+.bookmark-url-row input.is-invalid {
+    color: #ff4444;
+}
+
+.bookmark-url-row button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: min(2.4vw, 4vh);
+    cursor: pointer;
+    width: min(3vw, 5vh);
+    height: min(3vw, 5vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    outline: none;
+}
+
+.bookmark-url-row button:disabled {
+    opacity: 30%;
+    cursor: default;
+}
+
+
+
+/******************************************************************/
 /* Simple Calendar                                                */
 /******************************************************************/
 .calendar {
