@@ -19,6 +19,10 @@ const BOOKMARK_SLOTS = BOOKMARK_COLS * BOOKMARK_ROWS;
 const BOOKMARK_TITLE_MAX = 80;
 const BOOKMARK_URL_PLACEHOLDER = "Enter the URL here... https://...";
 const BOOKMARK_DRAG_SLOP = 8;
+const BOOKMARK_DEFAULT_URL = "https://www.thinkdown.net";
+const BOOKMARK_DEFAULT_TITLE = "Thinkdown — 생각을 써 내려가면 마크다운 문서가 됩니다";
+const BOOKMARK_DEFAULT_ICON = "https://www.thinkdown.net/assets/icon.png";
+const KEY_BOOKMARK_DEFAULT = "bookmarkDefault";
 
 let bookmarks = getSavedBookmarks();
 let bookmarkeditflag = true; // true 보기, false 편집
@@ -39,6 +43,7 @@ bookmarkurl.addEventListener("blur", onBlurBookmarkUrl);
 bookmark.addEventListener("click", onClickBookmarkBackdrop);
 bookmarkdialog.addEventListener("click", onClickBookmarkDialog);
 
+placeDefaultBookmark();
 printBookmark();
 
 function onClickBookmarkOpen() {
@@ -382,6 +387,45 @@ function getSavedBookmarks() {
 
 function setLocalBookmarks() {
     localStorage.setItem(KEY_BOOKMARKS, JSON.stringify(bookmarks));
+}
+
+// 홍보용 기본 사이트. 이미 있으면 건너뛰고, 지운 뒤에는 다시 넣지 않는다.
+// 빈 칸은 왼쪽 맨 아래부터 오른쪽으로, 그다음 윗줄 순서로 고른다.
+function placeDefaultBookmark() {
+    if (localStorage.getItem(KEY_BOOKMARK_DEFAULT)) {
+        return;
+    }
+    const url = normalizeBookmarkUrl(BOOKMARK_DEFAULT_URL);
+    const host = bookmarkHostname(url);
+    for (let i = 0; i < BOOKMARK_SLOTS; i++) {
+        if (bookmarks[i] && bookmarkHostname(bookmarks[i].url) === host) {
+            localStorage.setItem(KEY_BOOKMARK_DEFAULT, "1");
+            return;
+        }
+    }
+    const index = emptyBookmarkSlot();
+    if (index < 0) {
+        return;
+    }
+    bookmarks[index] = {
+        url: url,
+        title: clipBookmarkTitle(BOOKMARK_DEFAULT_TITLE),
+        icon: BOOKMARK_DEFAULT_ICON,
+    };
+    setLocalBookmarks();
+    localStorage.setItem(KEY_BOOKMARK_DEFAULT, "1");
+}
+
+function emptyBookmarkSlot() {
+    for (let row = BOOKMARK_ROWS - 1; row >= 0; row--) {
+        for (let col = 0; col < BOOKMARK_COLS; col++) {
+            const index = row * BOOKMARK_COLS + col;
+            if (!bookmarks[index]) {
+                return index;
+            }
+        }
+    }
+    return -1;
 }
 
 function sanitizeBookmark(item) {
