@@ -128,10 +128,8 @@
 ---
 
 ## Coffeeware
-> [!TIP]
-> 1. [맥노턴의 학교앞 구멍가게](https://ctee.kr/place/mcnorton)에서 커피한잔 후원하기</a> 
-> 2. 카카오페이 간편후원\
->    ![kakao_buymeacoffee_150](https://github.com/user-attachments/assets/905ce975-cd7e-452a-97f0-6995101954bc)
+
+<a href="https://www.buymeacoffee.com/mcnorton" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ```
 "A software engineer is a device for turning coffee into software"
