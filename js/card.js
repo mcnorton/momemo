@@ -109,11 +109,18 @@ function onClickCardManage() {
     printCardBar();
 }
 
+function finishCardManage() {
+    if (cardeditflag == false) {
+        onClickCardManage();
+    }
+}
+
 function onClickCardReady() {
     const deck = currentCardDeck();
     if (!deck || !deckHasCard(deck)) {
         return;
     }
+    finishCardManage();
     deck.mode = "draw";
     setLocalCardDecks();
     printCardMain();
@@ -436,6 +443,7 @@ function onDblClickCardCell(event) {
         return;
     }
     event.preventDefault();
+    finishCardManage();
     openCardEditor(Math.floor(event.currentTarget.dataset.index));
 }
 
