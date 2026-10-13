@@ -1617,6 +1617,784 @@ ion-icon {
 
 
 /******************************************************************/
+/* Card Draw                                                      */
+/******************************************************************/
+.card {
+    --card-slot: min(4.6vw, 6vh);
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: rgba(0,0,0,0.8);
+    display: none;
+}
+
+.card-close {
+    position: fixed;
+    display: flex;
+    width: 7vw;
+    height: 7vw;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 4vw;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    outline: 0;
+    opacity: 40%;
+}
+
+.card-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    width: calc(var(--card-slot) + 2.4vw);
+    display: flex;
+    flex-direction: column;
+    padding: 3.2vh 0 0.6vh 0.8vw;
+    overflow: visible;
+}
+
+.card-decks {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7vh;
+    overflow: visible;
+    user-select: none;
+}
+
+.card-slot {
+    position: relative;
+    width: var(--card-slot);
+    height: var(--card-slot);
+    flex: 0 0 auto;
+}
+
+.card-slot-btn,
+.card-slot-add {
+    width: var(--card-slot);
+    height: var(--card-slot);
+    border-radius: 22%;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-slot-btn {
+    background-color: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    font-size: calc(var(--card-slot) * 0.58);
+    line-height: 1;
+    opacity: 55%;
+    touch-action: none;
+}
+
+.card-slot-btn ion-icon {
+    font-size: calc(var(--card-slot) * 0.62);
+    color: white;
+    pointer-events: none;
+}
+
+.card-slot.is-selected .card-slot-btn {
+    opacity: 100%;
+    box-shadow: 0 0 0 0.18vw white;
+}
+
+.card-slot-add {
+    background-color: rgba(255,255,255,0.08);
+    border: 0.18vw solid rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.35);
+    font-size: calc(var(--card-slot) * 0.36);
+}
+
+.card-slot-label {
+    position: absolute;
+    left: calc(100% + 0.7vw);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    color: white;
+    background-color: rgba(0,0,0,0.78);
+    border-radius: 0.4vw;
+    padding: 0.45vh 0.7vw;
+    font-size: min(1.15vw, 1.8vh);
+}
+
+.card-slot:hover .card-slot-label {
+    opacity: 100%;
+}
+
+.card-slot-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    transform: translate(35%, -35%);
+    width: min(2.2vw, 4vh);
+    height: min(2.2vw, 4vh);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #bb0000;
+    font-size: min(2.2vw, 4vh);
+    cursor: pointer;
+    outline: none;
+}
+
+.card-slot.is-dragging {
+    opacity: 30%;
+}
+
+.card-slot.is-drop .card-slot-btn,
+.card-slot.is-drop .card-slot-add {
+    box-shadow: 0 0 0 0.25vw lime;
+}
+
+.card-slot-ghost {
+    position: fixed;
+    z-index: 40;
+    pointer-events: none;
+    margin: 0;
+    opacity: 90%;
+}
+
+.card-manage {
+    flex: 0 0 auto;
+    width: 7vw;
+    height: 7vw;
+    margin-top: 0.8vh;
+    margin-left: calc((var(--card-slot) - 7vw) / 2);
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    color: white;
+    font-size: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+    opacity: 30%;
+}
+
+.card-main {
+    position: absolute;
+    z-index: 1;
+    top: 1.5vh;
+    right: 6vw;
+    bottom: 1.5vh;
+    left: calc(var(--card-slot) + 3.2vw);
+    min-width: 0;
+    min-height: 0;
+}
+
+.card-list,
+.card-draw {
+    display: none;
+    height: 100%;
+    min-height: 0;
+}
+
+.card-main.is-list .card-list,
+.card-main.is-draw .card-draw {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-head {
+    flex: 0 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vw;
+    min-height: 0;
+}
+
+.card-head-icon {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    font-size: min(2.2vw, 3vh);
+    line-height: 1;
+}
+
+.card-head-icon ion-icon {
+    font-size: min(2.4vw, 3.4vh);
+    color: white;
+    pointer-events: none;
+}
+
+.card-head-name {
+    width: 16vw;
+    margin: 0;
+    padding: 0.15em 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: min(1.8vw, 2.6vh);
+    line-height: 1.2;
+    text-align: center;
+    caret-color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card-head-name:read-only {
+    cursor: default;
+    caret-color: transparent;
+}
+
+.card-head-name:not(:read-only) {
+    cursor: text;
+    text-overflow: clip;
+}
+
+.card-icon-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 0.12vw solid silver;
+    color: white;
+    caret-color: lime;
+    text-align: center;
+    outline: none;
+    font-family: inherit;
+}
+
+.card-icon-input {
+    font-size: min(2.2vw, 3vh);
+    width: min(8vw, 12vh);
+}
+
+.card-grid-view {
+    flex: 0 0 80%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.card-grid-view::-webkit-scrollbar {
+    display: block;
+    width: 0.55vh;
+}
+
+.card-grid-view::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.35);
+    border-radius: 1vh;
+}
+
+.card-grid {
+    /* 11줄 중 5줄이 목록 높이를 채우고, 나머지는 스크롤 */
+    height: calc(220% + 0.72vh);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: repeat(11, minmax(0, 1fr));
+    gap: 0.6vh 0.5vw;
+    user-select: none;
+}
+
+.card-cell {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.35vw;
+    color: white;
+    text-align: center;
+}
+
+.card-cell.is-empty {
+    opacity: 30%;
+    background-color: #000;
+    color: white;
+    border: 0.1vw solid rgba(255,255,255,0.85);
+}
+
+.card-cell.is-filled {
+    background-color: rgba(0,0,0,0.88);
+    color: white;
+    border: 0.18vw solid white;
+}
+
+.card-cell.is-editing {
+    z-index: 2;
+    background-color: rgba(0,0,0,0.92);
+    color: white;
+    border: 0.16vw solid lime;
+    cursor: text;
+}
+
+.card-face-label,
+.card-face-icon,
+.card-face-text {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+.card-face-label {
+    flex: 0 0 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(2vw, 3vh);
+    font-family: inherit;
+    color: inherit;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.card-face-icon {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(3.4vw, 5vh);
+}
+
+.card-face-text {
+    flex: 0 0 28%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(1.35vw, 2vh);
+    padding: 0 0.2vw;
+}
+
+.card-cell input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 0.08vw solid rgba(255,255,255,0.4);
+    color: white;
+    caret-color: lime;
+    text-align: center;
+    outline: none;
+    padding: 0;
+    font-family: inherit;
+}
+
+.card-cell input::placeholder {
+    color: silver;
+}
+
+.card-cell-clear {
+    position: absolute;
+    top: 0.45vh;
+    right: 0.35vw;
+    z-index: 3;
+    width: min(2.2vw, 4vh);
+    height: min(2.2vw, 4vh);
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #bb0000;
+    font-size: min(2.2vw, 4vh);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.card-edit-label {
+    flex: 0 0 30%;
+    font-size: min(2vw, 3vh);
+}
+
+.card-edit-icon {
+    flex: 1 1 auto;
+    font-size: min(3.4vw, 5vh);
+}
+
+.card-edit-text {
+    flex: 0 0 28%;
+    font-size: min(1.35vw, 2vh);
+}
+
+.card-ready-row {
+    flex: 0 0 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6vw;
+    min-height: 0;
+}
+
+.card-ready {
+    background-color: transparent;
+    border: 0.14vw solid lime;
+    border-radius: 0.8vw;
+    color: lime;
+    font-family: inherit;
+    font-size: min(2vw, 3vh);
+    letter-spacing: 0.14em;
+    padding: 0.9vh 1.8vw;
+    cursor: pointer;
+    outline: none;
+}
+
+.card-ready:disabled {
+    opacity: 30%;
+    cursor: default;
+}
+
+.card-repeatable {
+    display: flex;
+    align-items: center;
+    gap: 0.45vw;
+    color: white;
+    font-size: min(1.25vw, 1.9vh);
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-repeatable input {
+    width: min(1.15vw, 1.8vh);
+    height: min(1.15vw, 1.8vh);
+    margin: 0;
+    accent-color: white;
+    cursor: pointer;
+}
+
+.card-draw {
+    /* 뽑힌 카드는 예전 세로 높이만큼의 정사각형. 글자는 카드 너비에 비례한다. */
+    --card-mini-w: min(9.57vw, 13.92vh);
+    --card-mini-h: var(--card-mini-w);
+    align-items: center;
+    justify-content: center;
+    gap: 1.2vh;
+}
+
+.card-reel {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.card-reel-item {
+    position: absolute;
+    transform-origin: center center;
+    perspective: 60vw;
+}
+
+.card-reel-item.is-reveal {
+    transition: width 0.55s, height 0.55s, left 0.55s, top 0.55s, font-size 0.55s;
+}
+
+.card-reel-item.is-instant {
+    transition: none;
+}
+
+.card-reel-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s;
+}
+
+.card-reel-item.is-instant .card-reel-inner {
+    transition: none;
+}
+
+.card-reel-item.is-flipped .card-reel-inner {
+    transform: rotateY(180deg);
+}
+
+.card-reel-back,
+.card-reel-front {
+    position: absolute;
+    inset: 0;
+    border-radius: 0.55vw;
+    border: 0.16vw solid white;
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.card-reel-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #141414;
+    background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.22) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.22) 75%),
+        linear-gradient(-45deg, rgba(255,255,255,0.22) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.22) 75%);
+    background-size: 1.3vw 1.3vw;
+    background-position: 0 0, 0.65vw 0.65vw;
+}
+
+.card-reel-mark {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.62);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+}
+
+.card-reel-front {
+    transform: rotateY(180deg);
+    background-color: rgba(0,0,0,0.94);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
+    padding: 3% 4%;
+    color: white;
+}
+
+.card-reel-label,
+.card-reel-icon,
+.card-reel-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    line-height: 1.15;
+}
+
+.card-clip {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card-reel-label {
+    flex: 0 0 26%;
+    font-size: 0.36em;
+}
+
+.card-reel-label .card-clip {
+    max-width: 8em;
+}
+
+.card-reel-icon {
+    flex: 1 1 auto;
+    font-size: 0.62em;
+}
+
+.card-reel-icon .card-clip {
+    max-width: 4em;
+}
+
+.card-reel-text {
+    flex: 0 0 24%;
+    font-size: 0.21em;
+}
+
+.card-reel-text .card-clip {
+    max-width: 10.6em;
+}
+
+.card-draw-controls {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4vw;
+}
+
+.card-draw-controls button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: min(3.2vw, 5vh);
+    width: min(4vw, 6vh);
+    height: min(4vw, 6vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    opacity: 70%;
+}
+
+.card-draw-controls button:disabled {
+    opacity: 30%;
+    cursor: default;
+}
+
+#card-play {
+    width: min(8vw, 12vh);
+    height: min(8vw, 12vh);
+    font-size: min(6.4vw, 10vh);
+    color: lime;
+    opacity: 100%;
+}
+
+#card-play:disabled {
+    opacity: 30%;
+}
+
+.card-drawn {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: var(--card-mini-h);
+    display: flex;
+    align-items: center;
+    gap: 0.55vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.card-drawn::-webkit-scrollbar {
+    display: block;
+    height: 0.55vh;
+}
+
+.card-drawn::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.35);
+    border-radius: 1vh;
+}
+
+.card-mini {
+    flex: 0 0 auto;
+    width: var(--card-mini-w);
+    height: var(--card-mini-h);
+    border: 0.12vw solid white;
+    border-radius: 0.25vw;
+    background-color: rgba(0,0,0,0.55);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    font-size: var(--card-mini-w);
+}
+
+.card-mini .card-face-label,
+.card-mini .card-face-icon,
+.card-mini .card-face-text {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.card-mini .card-face-label {
+    flex: 0 0 26%;
+    font-size: 0.13em;
+    cursor: default;
+}
+
+.card-mini .card-face-label .card-clip {
+    max-width: 8em;
+}
+
+.card-mini .card-face-icon {
+    font-size: 0.26em;
+}
+
+.card-mini .card-face-icon .card-clip {
+    max-width: 4em;
+}
+
+.card-mini .card-face-text {
+    flex: 0 0 24%;
+    font-size: 0.09em;
+}
+
+.card-mini .card-face-text .card-clip {
+    max-width: min(100%, 12em);
+}
+
+.card-confirm {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    background-color: rgba(0,0,0,0.45);
+    align-items: center;
+    justify-content: center;
+}
+
+.card-confirm-box {
+    background-color: rgba(0,0,0,0.92);
+    border: 0.2vw solid white;
+    border-radius: 1vw;
+    padding: 3vh 2.6vw;
+    text-align: center;
+}
+
+.card-confirm-box p {
+    margin: 0 0 2vh;
+    font-size: min(1.6vw, 2.6vh);
+}
+
+.card-confirm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2vw;
+}
+
+.card-confirm-box button {
+    background-color: transparent;
+    border: 0.14vw solid white;
+    color: white;
+    font-family: inherit;
+    font-size: min(1.4vw, 2.2vh);
+    letter-spacing: 0.06em;
+    padding: 0.55vh 1.6vw;
+    cursor: pointer;
+    outline: none;
+}
+
+
+
+/******************************************************************/
 /* Simple Calendar                                                */
 /******************************************************************/
 .calendar {

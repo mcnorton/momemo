@@ -64,6 +64,7 @@
           <button id="chalk-open" title="CHALK BOARD"><ion-icon name="create-outline"></ion-icon></button>
           <button id="calendar-open" title="SIMPLE CALENDAR"><ion-icon name="calendar-outline"></ion-icon></button>
           <button id="music-open" title="MUSIC PLAYER"><ion-icon name="logo-youtube"></ion-icon></button>
+          <button id="card-open" title="CARDS"><ion-icon name="dice-outline"></ion-icon></button>
         </div>
 
         <div id="quote" class="quote">
@@ -236,6 +237,47 @@
       </div>
     </div>
 
+    <!-- Card Draw -->
+    <div id="card" class="card">
+      <button id="card-close" class="card-close" title="CLOSE" type="button"><ion-icon name="close-circle-outline"></ion-icon></button>
+      <aside id="card-bar" class="card-bar">
+        <div id="card-decks" class="card-decks"></div>
+        <button id="card-manage" class="card-manage" title="EDIT" type="button"><ion-icon name="add-circle-outline"></ion-icon></button>
+      </aside>
+      <div id="card-main" class="card-main">
+        <div id="card-list" class="card-list">
+          <div id="card-head" class="card-head"></div>
+          <div class="card-grid-view">
+            <div id="card-grid" class="card-grid"></div>
+          </div>
+          <div class="card-ready-row">
+            <button id="card-ready" class="card-ready" type="button">READY</button>
+            <label class="card-repeatable">
+              <input id="card-repeatable" type="checkbox">
+              <span>Repeatable</span>
+            </label>
+          </div>
+        </div>
+        <div id="card-draw" class="card-draw">
+          <div id="card-reel" class="card-reel"></div>
+          <div class="card-draw-controls">
+            <button id="card-reset" title="RESET" type="button"><ion-icon name="refresh"></ion-icon></button>
+            <button id="card-play" title="PLAY" type="button"><ion-icon name="play"></ion-icon></button>
+          </div>
+          <div id="card-drawn" class="card-drawn"></div>
+        </div>
+      </div>
+      <div id="card-confirm" class="card-confirm">
+        <div class="card-confirm-box">
+          <p>Reshuffle decks?</p>
+          <div class="card-confirm-actions">
+            <button id="card-confirm-no" type="button">No</button>
+            <button id="card-confirm-ok" type="button">YES</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Rotation arrow -->
     <div id="rotation" class="rotation">
       <div>
@@ -266,6 +308,7 @@
     <script src="js/wakelock.js"></script>
     <script src="js/music.js"></script>
     <script src="js/bookmark.js"></script>
+    <script src="js/card.js"></script>
     <script src="js/version.js"></script>
 
     <script src="js/pwa.js"></script>
