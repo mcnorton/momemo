@@ -18,6 +18,7 @@ const BOOKMARK_ROWS = 4;
 const BOOKMARK_SLOTS = BOOKMARK_COLS * BOOKMARK_ROWS;
 const BOOKMARK_TITLE_MAX = 80;
 const BOOKMARK_URL_PLACEHOLDER = "Enter the URL here... https://...";
+const BOOKMARK_TITLE_PLACEHOLDER = "Enter the label here...";
 const BOOKMARK_DRAG_SLOP = 8;
 const BOOKMARK_DEFAULT_URL = "https://www.thinkdown.net";
 const BOOKMARK_DEFAULT_TITLE = "Thinkdown — 생각을 써 내려가면 마크다운 문서가 됩니다";
@@ -40,6 +41,9 @@ bookmarksave.addEventListener("click", onClickBookmarkSave);
 bookmarkurl.addEventListener("input", onInputBookmarkUrl);
 bookmarkurl.addEventListener("focus", onFocusBookmarkUrl);
 bookmarkurl.addEventListener("blur", onBlurBookmarkUrl);
+bookmarkpreviewtitle.addEventListener("input", onInputBookmarkTitle);
+bookmarkpreviewtitle.addEventListener("focus", onFocusBookmarkTitle);
+bookmarkpreviewtitle.addEventListener("blur", onBlurBookmarkTitle);
 bookmark.addEventListener("click", onClickBookmarkBackdrop);
 bookmarkdialog.addEventListener("click", onClickBookmarkDialog);
 
@@ -87,12 +91,13 @@ function onClickBookmarkSave() {
     if (!url || bookmarkslot < 0) {
         return;
     }
-    if (!bookmarkmeta.title) {
-        bookmarkmeta.title = bookmarkHostname(url);
+    let title = clipBookmarkTitle(bookmarkpreviewtitle.value);
+    if (!title) {
+        title = bookmarkHostname(url);
     }
     bookmarks[bookmarkslot] = {
         url: url,
-        title: clipBookmarkTitle(bookmarkmeta.title),
+        title: title,
         icon: bookmarkmeta.icon || "",
     };
     closeBookmarkDialog();
@@ -121,6 +126,18 @@ function onFocusBookmarkUrl() {
 
 function onBlurBookmarkUrl() {
     bookmarkurl.placeholder = BOOKMARK_URL_PLACEHOLDER;
+}
+
+function onInputBookmarkTitle() {
+    bookmarkmeta.title = bookmarkpreviewtitle.value;
+}
+
+function onFocusBookmarkTitle() {
+    bookmarkpreviewtitle.placeholder = "";
+}
+
+function onBlurBookmarkTitle() {
+    bookmarkpreviewtitle.placeholder = BOOKMARK_TITLE_PLACEHOLDER;
 }
 
 function onClickBookmarkBackdrop(event) {
@@ -526,7 +543,16 @@ function openBookmarkDialog(index) {
     }
     bookmarkdialog.style.display = "flex";
     if (item) {
-        bookmarkurl.focus();
+        bookmarkpreviewtitle.focus();
+        bookmarkpreviewtitle.setSelectionRange(0, 0);
+        bookmarkpreviewtitle.scrollLeft = 0;
+        window.requestAnimationFrame(function() {
+            if (document.activeElement !== bookmarkpreviewtitle) {
+                return;
+            }
+            bookmarkpreviewtitle.setSelectionRange(0, 0);
+            bookmarkpreviewtitle.scrollLeft = 0;
+        });
     }
 }
 
@@ -537,6 +563,8 @@ function closeBookmarkDialog() {
     bookmarkmeta = { title: "", icon: "" };
     bookmarkurl.value = "";
     bookmarkurl.placeholder = BOOKMARK_URL_PLACEHOLDER;
+    bookmarkpreviewtitle.value = "";
+    bookmarkpreviewtitle.placeholder = BOOKMARK_TITLE_PLACEHOLDER;
     paintBookmarkUrlState("");
     paintBookmarkPreview();
     bookmarkdialog.style.display = "none";
@@ -610,11 +638,17 @@ function bookmarkMetaContent(doc, property) {
 
 function collectBookmarkIcons(doc, finalUrl) {
     const apple = [];
+    const shortcut = [];
     const icons = [];
     const links = doc.querySelectorAll("link[rel]");
     for (let i = 0; i < links.length; i++) {
         const rel = (links[i].getAttribute("rel") || "").toLowerCase();
-        if (rel.indexOf("icon") < 0 || rel.indexOf("mask-icon") >= 0) {
+        if (bookmarkRelHas(rel, "mask-icon")) {
+            continue;
+        }
+        const isShortcut = (bookmarkRelHas(rel, "shortcut") && bookmarkRelHas(rel, "icon")) || bookmarkIconMime(links[i]);
+        const isApple = bookmarkRelHas(rel, "apple-touch-icon") || bookmarkRelHas(rel, "apple-touch-icon-precomposed");
+        if (!isShortcut && !isApple && !bookmarkRelHas(rel, "icon")) {
             continue;
         }
         const href = links[i].getAttribute("href");
@@ -636,13 +670,19 @@ function collectBookmarkIcons(doc, finalUrl) {
             size: size,
             ico: bookmarkIconIsIco(resolved),
         };
-        if (rel.indexOf("apple-touch-icon") >= 0) {
+        // rel="shortcut icon" type="image/x-icon" 도 파비콘이다. .ico 로 끝나도 뒤로 밀지 않는다.
+        if (isApple) {
             apple.push(item);
+        } else if (isShortcut) {
+            shortcut.push(item);
         } else {
             icons.push(item);
         }
     }
     apple.sort(function(a, b) {
+        return b.size - a.size;
+    });
+    shortcut.sort(function(a, b) {
         return b.size - a.size;
     });
     icons.sort(function(a, b) {
@@ -654,6 +694,9 @@ function collectBookmarkIcons(doc, finalUrl) {
     const urls = [];
     for (let i = 0; i < apple.length; i++) {
         urls.push(apple[i].url);
+    }
+    for (let i = 0; i < shortcut.length; i++) {
+        urls.push(shortcut[i].url);
     }
     for (let i = 0; i < icons.length; i++) {
         urls.push(icons[i].url);
@@ -679,6 +722,21 @@ function collectBookmarkIcons(doc, finalUrl) {
         urls.push(resolveBookmarkUrl(ogImage, finalUrl));
     }
     return uniqueBookmarkIcons(urls);
+}
+
+function bookmarkRelHas(rel, token) {
+    const parts = rel.split(/\s+/);
+    for (let i = 0; i < parts.length; i++) {
+        if (parts[i] === token) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function bookmarkIconMime(link) {
+    const type = (link.getAttribute("type") || "").toLowerCase().split(";")[0].trim();
+    return type === "image/x-icon" || type === "image/vnd.microsoft.icon";
 }
 
 function bookmarkIconIsIco(url) {
@@ -743,6 +801,11 @@ function probeBookmarkIcons(fetchid, urls, index) {
         if (fetchid !== bookmarkfetchid) {
             return;
         }
+        // 1×1 자리표시 이미지는 아이콘이 아니다. 다음 후보를 본다.
+        if (img.naturalWidth < 2 || img.naturalHeight < 2) {
+            probeBookmarkIcons(fetchid, urls, at + 1);
+            return;
+        }
         bookmarkmeta.icon = urls[at];
         paintBookmarkPreview();
     };
@@ -780,7 +843,10 @@ function probeBookmarkIcon(fetchid) {
 
 function paintBookmarkPreview() {
     bookmarkpreviewicon.replaceChildren();
-    bookmarkpreviewtitle.textContent = bookmarkmeta.title || "";
+    const title = bookmarkmeta.title || "";
+    if (bookmarkpreviewtitle.value !== title) {
+        bookmarkpreviewtitle.value = title;
+    }
     if (!bookmarkmeta.icon) {
         bookmarkpreviewicon.classList.add("is-empty");
         const ion = document.createElement("ion-icon");

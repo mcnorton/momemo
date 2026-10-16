@@ -1554,12 +1554,22 @@ ion-icon {
     width: 100%;
     min-height: 1.4em;
     margin: 0;
-    text-align: center;
+    padding: 0.4vh 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 0.15vw solid silver;
+    text-align: left;
     font-size: min(1.6vw, 2.6vh);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: white;
+    outline: none;
+    caret-color: lime;
+}
+
+.bookmark-preview-title::placeholder {
+    color: silver;
 }
 
 .bookmark-url-row {
